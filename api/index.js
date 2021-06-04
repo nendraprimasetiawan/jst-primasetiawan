@@ -33,23 +33,26 @@ bot.onText(/\/predict/, (msg) => {
 bot.on('message', (msg) => {
     if(state == 1){
         s = msg.text.split("|");
+        i = parseFloat(s[0])
+        r = parseFloat(s[1])
     
         model.predict(
             [
-                 parseFloat(s[0]), // string to float
-                 parseFloat(s[1])
+                 i, // string to float
+                 r
             ]
        ).then((jres1)=>{
-           console.log(jres1);
-            
-            cls_model.classify([parseFloat(s[0]), parseFloat(s[1]), parseFloat(jres1[0]), parseFloat(jres1[1])]).then((jres2)=>{
+            v = parseFloat(jres1[0])
+            p = parseFloat(jres1[1])
+        
+            cls_model.classify([i, r, v, p]).then((jres2)=>{
                bot.sendMessage(
                    msg.chat.id,
-                   `nilai v yang diprediksi adalah ${jres1[0]} volt`
+                   `nilai v yang diprediksi adalah ${v} volt`
                );
                bot.sendMessage(
                    msg.chat.id,
-                   `nilai p yang diprediksi adalah ${jres1[1]} watt`
+                   `nilai p yang diprediksi adalah ${p} watt`
                );
                bot.sendMessage(
                    msg.chat.id,
